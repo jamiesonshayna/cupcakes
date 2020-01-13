@@ -43,7 +43,7 @@ if(isset($_POST["cupcakes"])) {
     foreach($_POST["cupcakes"] as $item) {
         if(!in_array($item, $cupcakesArray)) { // check for spoof to make sure their choice is in our associated array
             $cupcakesValid = false;
-            $errorText .= "Invalid cupcake: $item<br>";
+            $errorText .= "Invalid cupcake(s) entered: $item, etc.<br>";
             break;
         } else { // valid cupcake choice- add to total cost, and add item to ordered array
             $cupcakesValid = true;
@@ -94,7 +94,8 @@ if($nameIsValid && $cupcakesValid) {
             }
         ?>
     </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
