@@ -9,18 +9,21 @@ $cupcakesArray = array("grasshopper" => "The Grasshopper", "maple" => "Whiskey M
 
 // validate the user's form input
 $isValid = false;
+$nameIsValid = false;
+$cupcakesValid = false;
 
 // variables to set to be used throughout the success page
 $name = "";
 $errorText = "";
-$cupcakesOrdered = [];
+$orderTotalCost = 0;
+$cupcakesOrdered = array();
 
 // make sure that they entered a name
 if(isset($_POST["name"]) && trim($_POST["name"]) != "") {
-    $isValid = true;
-    $name = trim($_POST["name"]);
+        $nameIsValid = true;
+        $name = trim($_POST["name"]);
 } else {
-    $isValid = false;
+    $nameIsValid = false;
     $errorText .= "Name field empty<br>";
 }
 
@@ -28,17 +31,22 @@ if(isset($_POST["name"]) && trim($_POST["name"]) != "") {
 if(isset($_POST["cupcakes"])) {
     foreach($_POST["cupcakes"] as $item) {
         if(!in_array($item, $cupcakesArray)) {
-            $isValid = false;
+            $cupcakesValid = false;
             $errorText .= "Invalid cupcake: $item<br>";
             break;
         } else {
-            $isValid = true;
-            $cupcakesOrdered = $item;
+            $cupcakesValid = true;
+            array_push($cupcakesOrdered, $item);
+            $orderTotalCost = $orderTotalCost + 3.50;
         }
     }
 } else {
-    $isValid = false;
+    $cupcakesValid = false;
     $errorText .= "No cupcakes selected<br>";
+}
+
+if($nameIsValid && $cupcakesValid) {
+    $isValid = true;
 }
 ?>
 <!doctype html>
@@ -58,7 +66,15 @@ if(isset($_POST["cupcakes"])) {
         <?
             // echo the user's summary if $isValid is true
             if($isValid) {
-                echo "true";
+                echo "<h2>Thank you, $name, for your order!</h2><br>";
+                echo "<p>Order Summary:</p>";
+                echo "<ul>";
+                foreach($cupcakesOrdered as $item) {
+                    echo "<li>$item</li>";
+                }
+                echo "</ul><br>";
+                echo "<p>Order Total: $".money_format('%i', $orderTotalCost)."</p>";
+
             }
             // echo the user errors if $isValid is false
             else {
