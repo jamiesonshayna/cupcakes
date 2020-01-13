@@ -4,7 +4,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$cupcakes = array("grasshopper" => "The Grasshopper", "maple" => "Whiskey Maple Bacon",
+$cupcakesArray = array("grasshopper" => "The Grasshopper", "maple" => "Whiskey Maple Bacon",
     "carrot" => "Carrot Walnut", "caramel" => "Salted Caramel Cupcake", "velvet" => "Red Velvet",
     "lemon" => "Lemon Drop", "tiramisu" => "Tiramisu");
 
@@ -18,24 +18,23 @@ $cupcakes = array("grasshopper" => "The Grasshopper", "maple" => "Whiskey Maple 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
     <title>Cupcake Fundraiser</title>
 </head>
 <body>
 <div class="container">
     <h1>Cupcake Fundraiser</h1>
-    <form>
+    <form action="success.php" method="post">
         <div class="form-group">
             <label for="name">Your name:</label>
-            <input type="text" class="form-control" id="name" placeholder="Please input your name.">
+            <input type="text" class="form-control" id="name" name="name" value="" placeholder="Please input your name.">
         </div>
         <p>Cupcake flavors:</p>
         <div class="form-check">
             <?
                 // loop through associative array to display cupcake options
-                foreach($cupcakes as $key => $val) {
-                    echo "<input type=\"checkbox\" class=\"form-check-input\" id=\"$key\">";
-                    echo "<label class=\"form-check-label\" for=\"$key\" value=\"$key\">$val</label><br>";
+                foreach($cupcakesArray as $key => $val) {
+                    echo "<input type=\"checkbox\" class=\"form-check-input\" value=\"$val\" id=\"$key\" name=\"cupcakes[]\">";
+                    echo "<label class=\"form-check-label\" for=\"$key\">$val</label><br>";
                 }
             ?>
         </div>
