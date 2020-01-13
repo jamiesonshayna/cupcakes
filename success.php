@@ -1,18 +1,29 @@
 <?php
+/**
+ * @author Shayna Jamieson
+ * @version 1.0
+ * date: January 13, 2020
+ * URL: http://sjamieson.greenriverdev.com/328/cupcakes/success.php
+ * description: This is a program that takes user input ie.e name, and cupcakes wanted. The form collects the user data,
+ * validates to make sure that a name at at least one cupcake was entered, and then displays an appropriate message.
+ * The program calculates the total cost of the order and lets the end user know their total and a summary of items ordered.
+ */
+
 // Turn on error reporting
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+// define cupcake keys and their associated values
 $cupcakesArray = array("grasshopper" => "The Grasshopper", "maple" => "Whiskey Maple Bacon",
     "carrot" => "Carrot Walnut", "caramel" => "Salted Caramel Cupcake", "velvet" => "Red Velvet",
     "lemon" => "Lemon Drop", "tiramisu" => "Tiramisu");
 
-// validate the user's form input
+// validation variables to track form state
 $isValid = false;
 $nameIsValid = false;
 $cupcakesValid = false;
 
-// variables to set to be used throughout the success page
+// variables to set to be used throughout the success page and error message (whichever is appropriate)
 $name = "";
 $errorText = "";
 $orderTotalCost = 0;
@@ -22,7 +33,7 @@ $cupcakesOrdered = array();
 if(isset($_POST["name"]) && trim($_POST["name"]) != "") {
         $nameIsValid = true;
         $name = trim($_POST["name"]);
-} else {
+} else { // name field was not set (invalid)
     $nameIsValid = false;
     $errorText .= "Name field empty<br>";
 }
@@ -30,21 +41,22 @@ if(isset($_POST["name"]) && trim($_POST["name"]) != "") {
 // make sure that at least one cupcake was specified and form wasn't spoofed
 if(isset($_POST["cupcakes"])) {
     foreach($_POST["cupcakes"] as $item) {
-        if(!in_array($item, $cupcakesArray)) {
+        if(!in_array($item, $cupcakesArray)) { // check for spoof to make sure their choice is in our associated array
             $cupcakesValid = false;
             $errorText .= "Invalid cupcake: $item<br>";
             break;
-        } else {
+        } else { // valid cupcake choice- add to total cost, and add item to ordered array
             $cupcakesValid = true;
             array_push($cupcakesOrdered, $item);
             $orderTotalCost = $orderTotalCost + 3.50;
         }
     }
-} else {
+} else { // invalid- no cupcake option was selected
     $cupcakesValid = false;
     $errorText .= "No cupcakes selected<br>";
 }
 
+// if both name and cupcake choices are valid then we declare the user information all valid
 if($nameIsValid && $cupcakesValid) {
     $isValid = true;
 }
@@ -61,7 +73,6 @@ if($nameIsValid && $cupcakesValid) {
     <title>Cupcake Fundraiser</title>
 </head>
 <body>
-
     <div class="container">
         <?
             // echo the user's summary if $isValid is true
@@ -73,7 +84,7 @@ if($nameIsValid && $cupcakesValid) {
                     echo "<li>$item</li>";
                 }
                 echo "</ul><br>";
-                echo "<p>Order Total: $".money_format('%i', $orderTotalCost)."</p>";
+                echo "<p>Order Total: $".money_format('%i', $orderTotalCost)."</p>"; // two decimal places
 
             }
             // echo the user errors if $isValid is false
@@ -83,9 +94,6 @@ if($nameIsValid && $cupcakesValid) {
             }
         ?>
     </div>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
